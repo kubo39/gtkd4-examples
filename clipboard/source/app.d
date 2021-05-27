@@ -14,8 +14,6 @@ import gtk.Label;
 
 class AsyncResult : AsyncResultIF
 {
-    import gobject.ObjectG;
-
     mixin AsyncResultT!GAsyncResult;
 
     GAsyncResult* raw;
