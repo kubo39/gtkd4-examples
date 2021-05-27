@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/clipboard
+clipboard.so
+clipboard.dylib
+clipboard.dll
+clipboard.a
+clipboard.lib
+clipboard-test-*
+*.exe
+*.o
+*.obj
+*.lst
