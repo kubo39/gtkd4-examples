@@ -76,7 +76,7 @@ int main(string[] args)
                         EntryBuffer buffer = new EntryBuffer(text, cast(int) text.length);
                         (cast(Entry) intoEntry).setBuffer(buffer);
                     }
-                    clipboard.readTextAsync(null, cast(GAsyncReadyCallback) &callback, cast(void*) intoEntry);
+                    clipboard.readTextAsync(null, &callback, cast(void*) intoEntry);
                 });
             container.append(pasteBtn);
 
