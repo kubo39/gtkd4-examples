@@ -1,6 +1,5 @@
 import gdk.Clipboard;
 import gdk.Display;
-import gdk.Texture;
 import gio.AsyncResultIF;
 import gio.AsyncResultT;
 import gtk.Application;
