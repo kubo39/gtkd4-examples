@@ -8,7 +8,6 @@ import gtk.Box;
 import gtk.Button;
 import gtk.Entry;
 import gtk.EntryBuffer;
-import gtk.Image;
 import gtk.Label;
 
 extern (C) void pasteTo(GObject* gobject, GAsyncResult* result, void* intoEntry) @system
