@@ -11,7 +11,17 @@ import gtk.EntryBuffer;
 import gtk.Image;
 import gtk.Label;
 
-class AsyncResult : AsyncResultIF
+extern (C) void pasteTo(GObject* gobject, GAsyncResult* result, void* intoEntry) @system
+{
+    auto asyncResult = new AsyncResultWrapper(result);
+    GdkClipboard* gdkClipboard = cast(GdkClipboard*) gobject;
+    Clipboard clipboard = new Clipboard(gdkClipboard);
+    auto text = clipboard.readTextFinish(asyncResult);
+    EntryBuffer buffer = new EntryBuffer(text, cast(int) text.length);
+    (cast(Entry) intoEntry).setBuffer(buffer);
+}
+
+class AsyncResultWrapper : AsyncResultIF
 {
     mixin AsyncResultT!GAsyncResult;
 
@@ -66,16 +76,7 @@ int main(string[] args)
 
             auto pasteBtn = new Button("Paste");
             pasteBtn.addOnClicked((Button) {
-                    extern (C) void callback(GObject* gobject, GAsyncResult* result, void* intoEntry) @system
-                    {
-                        auto asyncResult = new AsyncResult(result);
-                        GdkClipboard* gdkClipboard = cast(GdkClipboard*) gobject;
-                        Clipboard clipboard = new Clipboard(gdkClipboard);
-                        auto text = clipboard.readTextFinish(asyncResult);
-                        EntryBuffer buffer = new EntryBuffer(text, cast(int) text.length);
-                        (cast(Entry) intoEntry).setBuffer(buffer);
-                    }
-                    clipboard.readTextAsync(null, &callback, cast(void*) intoEntry);
+                    clipboard.readTextAsync(null, &pasteTo, cast(void*) intoEntry);
                 });
             container.append(pasteBtn);
 
