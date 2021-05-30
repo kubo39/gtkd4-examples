@@ -12,10 +12,8 @@ import gtk.Label;
 
 extern (C) void pasteTo(GObject* gobject, GAsyncResult* result, void* intoEntry) @system
 {
-    auto asyncResult = new AsyncResultWrapper(result);
-    GdkClipboard* gdkClipboard = cast(GdkClipboard*) gobject;
-    Clipboard clipboard = new Clipboard(gdkClipboard);
-    auto text = clipboard.readTextFinish(asyncResult);
+    Clipboard clipboard = new Clipboard(cast(GdkClipboard*) gobject);
+    auto text = clipboard.readTextFinish(new AsyncResultWrapper(result));
     EntryBuffer buffer = new EntryBuffer(text, cast(int) text.length);
     (cast(Entry) intoEntry).setBuffer(buffer);
 }
